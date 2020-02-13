@@ -12,9 +12,28 @@ public class FractionImpl implements Fraction {
      * @param numerator
      * @param denominator
      */
-    public FractionImpl(int numerator, int denominator) {
-        // TODO
+    private int numerator;
+    private int denominator;
+
+    /** Helper method: To find the GCD (greatest common divisor) */
+    int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
     }
+
+    public FractionImpl(int numerator, int denominator) {
+        if(denominator == 0) {
+            throw new ArithmeticException("Denominator can't be zero!");
+        } else if (denominator < 0) {
+            denominator = -denominator;
+            numerator = -numerator;
+        }
+        int gcd = gcd(numerator, denominator);
+        this.numerator = numerator / gcd;
+        this.denominator = denominator / gcd;
+        System.out.println(this.numerator);
+        System.out.println(this.denominator);
+    }
+
 
     /**
      * The parameter is the numerator and <pre>1</pre> is the implicit denominator.
@@ -22,7 +41,8 @@ public class FractionImpl implements Fraction {
      * @param wholeNumber representing the numerator
      */
     public FractionImpl(int wholeNumber) {
-        // TODO
+        this.numerator = wholeNumber;
+        this.denominator = 1;
     }
 
     /**
@@ -37,7 +57,8 @@ public class FractionImpl implements Fraction {
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
-        // TODO
+
+//        Integer(string).parseInt()
     }
 
     /**
