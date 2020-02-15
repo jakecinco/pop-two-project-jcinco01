@@ -1,8 +1,9 @@
 package fraction;
 
+import java.util.Arrays;
 
+import com.sun.jdi.InvalidTypeException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class FractionImplTest {
@@ -36,11 +37,24 @@ class FractionImplTest {
     //TODO - test case for gcd method
 
 
+
     @Test
-    public void testStringSplit() {
-        String s = "3/4";
-        String[] expected1 = new String[] { "3", "/", "4" };
-        Assertions.assertArrayEquals(expected1, s.split(""));
+    public void testStringFractionZeroDivision() {
+        Assertions.assertThrows(ArithmeticException.class, () -> {
+            FractionImpl f = new FractionImpl("1/0");
+        });
+    }
+
+    @Test
+    public void testStringFractionInvalidStrings() {
+        Assertions.assertThrows(NumberFormatException.class, () -> {
+            FractionImpl f1 = new FractionImpl("One");
+            FractionImpl f2 = new FractionImpl("Three/4");
+        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            FractionImpl f1 = new FractionImpl("3//4");
+            FractionImpl f2 = new FractionImpl("1 0/4");
+        });
     }
 
     @Test

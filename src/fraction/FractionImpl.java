@@ -20,6 +20,19 @@ public class FractionImpl implements Fraction {
         return b == 0 ? a : gcd(b, a % b);
     }
 
+    /** Helper method: Check and split string */
+//    String[] stringSplit(String str) {
+//        String[] strings = new String[2];
+//        if (str.contains("/")) {
+//            strings = str.split("/");
+//        }
+//        return strings;
+//    }
+    private String[] stringSplit(String s) {
+        String[] str = s.split("/");
+        return str;
+    }
+
     public FractionImpl(int numerator, int denominator) {
         if(denominator == 0) {
             throw new ArithmeticException("Denominator can't be zero!");
@@ -30,8 +43,6 @@ public class FractionImpl implements Fraction {
         int gcd = gcd(numerator, denominator);
         this.numerator = numerator / gcd;
         this.denominator = denominator / gcd;
-        System.out.println(this.numerator);
-        System.out.println(this.denominator);
     }
 
 
@@ -57,8 +68,23 @@ public class FractionImpl implements Fraction {
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
-
-//        Integer(string).parseInt()
+        String[] fractionArray = fraction.split("/");
+        try {
+            if (fractionArray.length != 2 ) {
+                if (fractionArray.length == 1) {
+                    //if legal integer, convert string to int
+                    new FractionImpl(Integer.parseInt(fraction));
+                } else {
+                    throw new IllegalArgumentException("Invalid input value!!!");
+                }
+            } else {
+                new FractionImpl(Integer.parseInt(fractionArray[0]), Integer.parseInt(fractionArray[1]));
+            }
+        }
+        catch (NumberFormatException nfe) {
+            //if illegal value, print error
+            throw nfe;
+        }
     }
 
     /**
@@ -154,6 +180,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
-        return null;
+        if (this.denominator == 1) {
+            return "" + numerator;
+        }
+        else {
+            return "["+ numerator + "/" + denominator + "]";
+        }
     }
 }
