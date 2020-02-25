@@ -1,70 +1,56 @@
 package fraction;
 
 public class FractionImpl implements Fraction {
-    /**
-     * Parameters are the <em>numerator</em> and the <em>denominator</em>.
-     * Normalize the fraction as you create it.
-     * For instance, if the parameters are <pre>(8, -12)</pre>, create a <pre>Fraction</pre> with numerator
-     * <pre>-2</pre> and denominator <pre>3</pre>.
-     *
-     * The constructor should throw an <pre>ArithmeticException</pre> if the denominator is zero.
-     *
-     * @param numerator
-     * @param denominator
-     */
-    private int numerator;
-    private int denominator;
 
-    /** Helper method: To find the GCD (greatest common divisor) */
-    int gcd(int a, int b) {
+    private int numerator, denominator;
+
+    /**
+     * This helper method computes the greatest common divisor of two integers.
+     * @param a, b are both of type int.
+     * @return The greatest common divisor of a and b.
+     */
+    private int gcd(int a, int b) {
         return b == 0 ? a : gcd(b, a % b);
     }
 
-    /** Helper method: Check and split string */
-//    String[] stringSplit(String str) {
-//        String[] strings = new String[2];
-//        if (str.contains("/")) {
-//            strings = str.split("/");
-//        }
-//        return strings;
-//    }
-    private String[] stringSplit(String s) {
-        String[] str = s.split("/");
-        return str;
-    }
-
+    /**
+     * Main Fraction Constructor
+     * @param numerator of the fraction as type int.
+     * @param denominator of the fraction as type int.
+     * Normalises the fraction.
+     * Throws an exception if the denominator is zero.
+     */
     public FractionImpl(int numerator, int denominator) {
-        if(denominator == 0) {
-            throw new ArithmeticException("Denominator can't be zero!");
-        } else if (denominator < 0) {
-            denominator = -denominator;
-            numerator = -numerator;
-        }
         int gcd = gcd(numerator, denominator);
-        this.numerator = numerator / gcd;
-        this.denominator = denominator / gcd;
+        if(denominator != 0) {
+            if(denominator < 0) {
+                this.denominator = denominator * -1 / gcd;
+                this.numerator = numerator * -1 / gcd;
+            } else {
+                this.numerator = numerator / gcd;
+                this.denominator = denominator / gcd;
+            }
+        } else {
+            throw new ArithmeticException("Denominator can't be zero!");
+        }
     }
-
 
     /**
-     * The parameter is the numerator and <pre>1</pre> is the implicit denominator.
-     *
-     * @param wholeNumber representing the numerator
+     * Whole number Fraction Constructor
+     * Uses the first constructor with default denominator of 1.
+     * @param wholeNumber representing the numerator as type int.
      */
     public FractionImpl(int wholeNumber) {
-        this.numerator = wholeNumber;
-        this.denominator = 1;
+        this(wholeNumber, 1);
     }
 
     /**
+     * String Fraction Constructor
      * The parameter is a <pre>String</pre> containing either a whole number, such as `5` or `-3`, or a fraction,
      * such as "8/-12".
      * Allow blanks around (but not within) integers.
-     * The constructor should throw an <pre>ArithmeticException</pre>
+     * The constructor should throw an ArithmeticException
      * if given a string representing a fraction whose denominator is zero.
-     * <p>
-     * You may find it helpful to look at the available String API methods in the Java API.
-     *
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
@@ -78,7 +64,9 @@ public class FractionImpl implements Fraction {
                     throw new IllegalArgumentException("Invalid input value!!!");
                 }
             } else {
-                new FractionImpl(Integer.parseInt(fractionArray[0]), Integer.parseInt(fractionArray[1]));
+                int num = Integer.parseInt(fractionArray[0]);
+                int den = Integer.parseInt((fractionArray[1]));
+                new FractionImpl(num, den);
             }
         }
         catch (NumberFormatException nfe) {
@@ -92,7 +80,13 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction add(Fraction f) {
-        return null;
+        FractionImpl fraction = (FractionImpl)f;
+        //the expression (FractionImpl)f means to check that the object is of class FractionImpl
+        // or a subclass of that (and throw a ClassCastException if it isn't). Now, a FractionImpl is Fraction,
+        // but the inverse isn't necessarily true; the cast here ensures that other will either be FractionImpl;
+        // if it's not further instructions will not be executed because an exception will have been thrown.
+        return new FractionImpl(this.numerator * fraction.denominator + this.denominator * fraction.numerator,
+            this.denominator * fraction.denominator);
     }
 
     /**
@@ -100,7 +94,10 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction subtract(Fraction f) {
-        return null;
+        FractionImpl fraction = (FractionImpl)f;
+        int numerator =  this.numerator * fraction.denominator - this.denominator * fraction.numerator;
+        int denominator = this.denominator * fraction.denominator;
+        return new FractionImpl(numerator, denominator);
     }
 
     /**
@@ -180,11 +177,10 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
-        if (this.denominator == 1) {
+        if (denominator == 1) {
             return "" + numerator;
-        }
-        else {
-            return "["+ numerator + "/" + denominator + "]";
+        } else {
+            return "" + numerator + "/" + denominator;
         }
     }
 }

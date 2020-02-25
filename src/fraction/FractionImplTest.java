@@ -1,12 +1,9 @@
 package fraction;
 
-import java.util.Arrays;
-
-import com.sun.jdi.InvalidTypeException;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-class FractionImplTest {
+public class FractionImplTest {
 
 //    // Instance variables numerator & denominator
 //    private static int numerator;
@@ -23,45 +20,43 @@ class FractionImplTest {
 
     @Test
     public void testExpectedException() {
-        Assertions.assertThrows(ArithmeticException.class, () -> {
-            FractionImpl f = new FractionImpl(1, 0);
+        assertThrows(ArithmeticException.class, () -> {
+            new FractionImpl(1, 0);
         });
     }
 
     @Test
     public void testFractionNotNull() {
         FractionImpl f = new FractionImpl(1, 2);
-        Assertions.assertNotNull(f);
+        assertNotNull(f);
     }
 
     //TODO - test case for gcd method
 
 
-
     @Test
     public void testStringFractionZeroDivision() {
-        Assertions.assertThrows(ArithmeticException.class, () -> {
-            FractionImpl f = new FractionImpl("1/0");
+        assertThrows(ArithmeticException.class, () -> {
+            FractionImpl f = new FractionImpl(1/0);
         });
     }
 
     @Test
     public void testStringFractionInvalidStrings() {
-        Assertions.assertThrows(NumberFormatException.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             FractionImpl f1 = new FractionImpl("One");
             FractionImpl f2 = new FractionImpl("Three/4");
         });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            FractionImpl f1 = new FractionImpl("3//4");
-            FractionImpl f2 = new FractionImpl("1 0/4");
+        assertThrows(IllegalArgumentException.class, () -> {
+            new FractionImpl("3//4");
+            new FractionImpl("9 0 9/4"); //should be break!!
         });
     }
 
     @Test
-    public void testStringSplitSubstringSlash() {
-        String s1 = "3/4";
-        String s2 = "34";
-        Assertions.assertTrue(s1.contains("/"));
-        Assertions.assertFalse(s2.contains("/"));
+    public void testAdd() {
+        Fraction f1 = new FractionImpl(1, 4);
+        assertEquals("1", new FractionImpl(-3, -4).add(f1).toString());
     }
+
 }
