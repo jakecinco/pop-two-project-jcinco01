@@ -10,6 +10,8 @@ public class FractionImpl implements Fraction {
      * @return The greatest common divisor of a and b.
      */
     private int gcd(int a, int b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
         return b == 0 ? a : gcd(b, a % b);
     }
 
@@ -59,14 +61,26 @@ public class FractionImpl implements Fraction {
             if (fractionArray.length != 2 ) {
                 if (fractionArray.length == 1) {
                     //if legal integer, convert string to int
-                    new FractionImpl(Integer.parseInt(fraction));
+                    this.numerator = Integer.parseInt(fraction);
+                    this.denominator = 1;
                 } else {
                     throw new IllegalArgumentException("Invalid input value!!!");
                 }
             } else {
-                int num = Integer.parseInt(fractionArray[0]);
-                int den = Integer.parseInt((fractionArray[1]));
-                new FractionImpl(num, den);
+                int numerator = Integer.parseInt(fractionArray[0].trim());
+                int denominator = Integer.parseInt(fractionArray[1].trim());
+                int gcd = gcd(numerator, denominator);
+                if(denominator != 0) {
+                    if(denominator < 0) {
+                        this.denominator = denominator * -1 / gcd;
+                        this.numerator = numerator * -1 / gcd;
+                    } else {
+                        this.numerator = numerator / gcd;
+                        this.denominator = denominator / gcd;
+                    }
+                } else {
+                    throw new ArithmeticException("Denominator can't be zero!");
+                }
             }
         }
         catch (NumberFormatException nfe) {
@@ -85,8 +99,9 @@ public class FractionImpl implements Fraction {
         // or a subclass of that (and throw a ClassCastException if it isn't). Now, a FractionImpl is Fraction,
         // but the inverse isn't necessarily true; the cast here ensures that other will either be FractionImpl;
         // if it's not further instructions will not be executed because an exception will have been thrown.
-        return new FractionImpl(this.numerator * fraction.denominator + this.denominator * fraction.numerator,
-            this.denominator * fraction.denominator);
+        int numerator = this.numerator * fraction.denominator + this.denominator * fraction.numerator;
+        int denominator = this.denominator * fraction.denominator;
+        return new FractionImpl(numerator, denominator);
     }
 
     /**
