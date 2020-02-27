@@ -1,22 +1,41 @@
 package fraction;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 public class FractionImplTest {
 
-//    // Instance variables numerator & denominator
-//    private static int numerator;
-//    private static int denominator;
-//
-//    //FractionImpl object
-//    FractionImpl fraction;
-//
-//    // Set up initial fraction instance
-//    @BeforeAll
-//    public void setUp() {
-//        fraction = new FractionImpl(numerator, denominator);
-//    }
+    private static FractionImpl oneHalf, oneFourth, twoThirds;
+    private static FractionImpl negOneHalf, negOneFourth;
+
+    /**
+     * Create test values before main tests starts.
+     */
+    @BeforeAll
+    public static void beforeEverything() {
+        //Create valid positive fractions
+        oneHalf = new FractionImpl(1,2);
+        oneFourth = new FractionImpl(1,4);
+        twoThirds = new FractionImpl(2,3);
+        //Create valid negative fractions
+        negOneHalf = new FractionImpl(-1, 2);
+        negOneFourth = new FractionImpl(-1, 4);
+    }
+
+    /**
+     * Clears values after each test cases.
+     */
+    @AfterAll
+    public static void afterEverything() {
+        oneHalf = null;
+        oneFourth = null;
+        twoThirds = null;
+        negOneHalf = null;
+        negOneFourth = null;
+    }
 
     @Test
     public void testExpectedException() {
@@ -26,54 +45,61 @@ public class FractionImplTest {
     }
 
     @Test
-    public void testFractionNotNull() {
+    public void testFractionImplNotNull() {
         FractionImpl f = new FractionImpl(1, 2);
         assertNotNull(f);
     }
 
-    //TODO - test case for gcd method
+    //TODO - test case for gcd method - private method not tested
+//    @Test
+//    public void testGCD() {
+//        assertEquals(5, FractionImpl.gcd(20, 25));
+//    }
 
 
     @Test
-    public void testStringFractionZeroDivision() {
+    public void testStringFractionImplZeroDivision() {
         assertThrows(ArithmeticException.class, () -> {
-            FractionImpl f1 = new FractionImpl(1/0);
-            FractionImpl f2 = new FractionImpl("1/0");
+            new FractionImpl(1/0);
+            new FractionImpl("1/0");
         });
     }
 
     @Test
-    public void testStringFractionInvalidStrings() {
+    public void testStringFractionImplInvalidStrings() {
         assertThrows(NumberFormatException.class, () -> {
-            FractionImpl f1 = new FractionImpl("One");
-            FractionImpl f2 = new FractionImpl("Three/4");
+            new FractionImpl("One");
+            new FractionImpl("Three/4");
         });
         assertThrows(IllegalArgumentException.class, () -> {
             new FractionImpl("3//4");
-            new FractionImpl("9 0 9/4"); //should be break!!
+            new FractionImpl("9 9/4");
         });
     }
 
     @Test
     public void testAdd() {
-        FractionImpl f1 = new FractionImpl(1, 4);
-        assertEquals("1", new FractionImpl(-3, -4).add(f1).toString());
-        FractionImpl f2 = new FractionImpl(9, -15);
-        assertEquals("-2/5", new FractionImpl(1, 5).add(f2).toString());
-        FractionImpl f3 = new FractionImpl("-5/ 20");
-        assertEquals("0", new FractionImpl(1, 4).add(f3).toString());
-        FractionImpl f4 = new FractionImpl("3/4");
-        assertEquals("1", new FractionImpl(1, 4).add(f4).toString());
+        assertEquals("1", new FractionImpl(-3, -4).add(oneFourth).toString());
+        assertEquals("1/4", new FractionImpl(1, -4).add(oneHalf).toString());
+        assertEquals("0", new FractionImpl(-1, 4).add(oneFourth).toString());
+        assertEquals("-1/4", new FractionImpl(-3, 4).add(oneHalf).toString());
+        assertEquals("1/2", new FractionImpl(3, 4).add(negOneFourth).toString());
     }
 
     @Test
     public void testSubtract() {
-
+        assertEquals("0", new FractionImpl(-2, -3).subtract(twoThirds).toString());
+        assertEquals("-1", new FractionImpl(-3, 9).subtract(twoThirds).toString());
+        assertEquals("1/4", new FractionImpl(6, 12).subtract(oneFourth).toString());
+        assertEquals("1", new FractionImpl(5, 3).subtract(twoThirds).toString());
+        assertEquals("-1/4", new FractionImpl(-3, 4).subtract(negOneHalf).toString());
     }
 
     @Test
     public void testMultiply() {
-
+        assertEquals("1/8", (oneHalf.multiply(oneFourth)).toString());
+        assertEquals("1/4", (oneHalf.multiply(oneHalf)).toString());
+        assertEquals("-1/4", oneHalf.multiply(negOneFourth).toString());
     }
 
     @Test
@@ -83,6 +109,7 @@ public class FractionImplTest {
 
     @Test
     public void testAbs() {
+
 
     }
 

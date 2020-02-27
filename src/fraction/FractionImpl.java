@@ -1,5 +1,7 @@
 package fraction;
 
+import java.util.IllegalFormatException;
+
 public class FractionImpl implements Fraction {
 
     private int numerator, denominator;
@@ -17,10 +19,10 @@ public class FractionImpl implements Fraction {
 
     /**
      * Main Fraction Constructor
-     * @param numerator of the fraction as type int.
-     * @param denominator of the fraction as type int.
-     * Normalises the fraction.
-     * Throws an exception if the denominator is zero.
+     * <p>Normalises the fraction.</p>
+     * @param numerator of the fraction as type 'int'.
+     * @param denominator of the fraction as type 'int'.
+     * @throws ArithmeticException if the denominator is zero.
      */
     public FractionImpl(int numerator, int denominator) {
         int gcd = gcd(numerator, denominator);
@@ -58,15 +60,11 @@ public class FractionImpl implements Fraction {
     public FractionImpl(String fraction) {
         String[] fractionArray = fraction.split("/");
         try {
-            if (fractionArray.length != 2 ) {
-                if (fractionArray.length == 1) {
-                    //if legal integer, convert string to int
-                    this.numerator = Integer.parseInt(fraction);
-                    this.denominator = 1;
-                } else {
-                    throw new IllegalArgumentException("Invalid input value!!!");
-                }
-            } else {
+            if(fractionArray.length == 1 ) {
+                //if legal integer, convert string to int
+                this.numerator = Integer.parseInt(fraction);
+                this.denominator = 1;
+            } else if(fractionArray.length == 2 ) {
                 int numerator = Integer.parseInt(fractionArray[0].trim());
                 int denominator = Integer.parseInt(fractionArray[1].trim());
                 int gcd = gcd(numerator, denominator);
@@ -85,7 +83,8 @@ public class FractionImpl implements Fraction {
         }
         catch (NumberFormatException nfe) {
             //if illegal value, print error
-            throw nfe;
+            //OK to ignore "nfe" because this is the documented behaviour on invalid input.
+            throw new NumberFormatException(fraction + " is not a valid number.");
         }
     }
 
