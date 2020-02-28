@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class FractionImplTest {
 
     private static FractionImpl oneHalf, oneFourth, twoThirds;
-    private static FractionImpl negOneHalf, negOneFourth;
+    private static FractionImpl negOneHalf, negOneFourth, negThreeNinths, zeroTenth;
 
     /**
      * Create test values before main tests starts.
@@ -20,9 +20,15 @@ public class FractionImplTest {
         oneHalf = new FractionImpl(1,2);
         oneFourth = new FractionImpl(1,4);
         twoThirds = new FractionImpl(2,3);
-        //Create valid negative fractions
+        //Create valid fractions with negative numerator
         negOneHalf = new FractionImpl(-1, 2);
         negOneFourth = new FractionImpl(-1, 4);
+        //Create valid fractions with negative denominator
+        negThreeNinths = new FractionImpl(3, -9);
+        //Create valid fractions with zero value
+        zeroTenth = new FractionImpl(0, 10);
+
+
     }
 
     /**
@@ -35,12 +41,15 @@ public class FractionImplTest {
         twoThirds = null;
         negOneHalf = null;
         negOneFourth = null;
+        negThreeNinths = null;
+        zeroTenth = null;
     }
 
     @Test
     public void testExpectedException() {
         assertThrows(ArithmeticException.class, () -> {
             new FractionImpl(1, 0);
+            zeroTenth.inverse();
         });
     }
 
@@ -97,35 +106,41 @@ public class FractionImplTest {
 
     @Test
     public void testMultiply() {
-        assertEquals("1/8", (oneHalf.multiply(oneFourth)).toString());
-        assertEquals("1/4", (oneHalf.multiply(oneHalf)).toString());
-        assertEquals("-1/4", oneHalf.multiply(negOneFourth).toString());
+        assertEquals("1/8", oneHalf.multiply(oneFourth).toString());
+        assertEquals("1/4", oneHalf.multiply(oneHalf).toString());
+        assertEquals("-1/8", oneHalf.multiply(negOneFourth).toString());
     }
 
     @Test
     public void testDivide() {
-
+        assertEquals("1/2", oneFourth.divide(oneHalf).toString());
     }
 
     @Test
     public void testAbs() {
-
+        assertEquals("1/3", negThreeNinths.abs().toString());
+        assertEquals("0", zeroTenth.abs().toString());
 
     }
 
     @Test
     public void testNegate() {
-
+        assertEquals("1/2", negOneHalf.negate().toString());
+        assertEquals("-1/4", oneFourth.negate().toString());
+        assertEquals("1/3", negThreeNinths.negate().toString());
+        assertEquals("0", zeroTenth.negate().toString());
     }
 
     @Test
     public void testInverse() {
-
+        assertEquals("2", oneHalf.inverse().toString());
+        assertEquals("-4", negOneFourth.inverse().toString());
+        assertEquals("3/2", twoThirds.inverse().toString());
     }
 
     @Test
     public void testEquals() {
-
+        assertTrue("1/2".equals(oneHalf.toString()));
     }
 
     @Test
