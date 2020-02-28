@@ -140,7 +140,9 @@ public class FractionImplTest {
 
     @Test
     public void testEquals() {
-        assertTrue("1/2".equals(oneHalf.toString()));
+        assertTrue(new FractionImpl(1,2).equals(oneHalf));
+        assertTrue("-1/3".equals(negThreeNinths.toString()));
+        assertFalse(oneHalf.equals(1/2));
     }
 
     @Test

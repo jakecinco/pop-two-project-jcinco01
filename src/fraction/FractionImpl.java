@@ -93,7 +93,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction add(Fraction f) {
-        FractionImpl fraction = (FractionImpl)f;
+        FractionImpl fraction = (FractionImpl) f;
         //the expression (FractionImpl)f means to check that the object is of class FractionImpl
         // or a subclass of that (and throw a ClassCastException if it isn't). Now, a FractionImpl is Fraction,
         // but the inverse isn't necessarily true; the cast here ensures that other will either be FractionImpl;
@@ -108,7 +108,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction subtract(Fraction f) {
-        FractionImpl fraction = (FractionImpl)f;
+        FractionImpl fraction = (FractionImpl) f;
         int numerator =  this.numerator * fraction.denominator - this.denominator * fraction.numerator;
         int denominator = this.denominator * fraction.denominator;
         return new FractionImpl(numerator, denominator);
@@ -119,7 +119,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction multiply(Fraction f) {
-        FractionImpl fraction = (FractionImpl)f;
+        FractionImpl fraction = (FractionImpl) f;
         int numerator = this.numerator * fraction.numerator;
         int denominator = this.denominator * fraction.denominator;
         return new FractionImpl(numerator, denominator);
@@ -130,7 +130,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction divide(Fraction f) {
-        FractionImpl fraction = (FractionImpl)f;
+        FractionImpl fraction = (FractionImpl) f;
         int numerator = this.numerator * fraction.denominator;
         int denominator = this.denominator * fraction.numerator;
         return new FractionImpl(numerator, denominator);
@@ -169,7 +169,12 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public boolean equals(Object o) {
-        return true;
+        FractionImpl f = (FractionImpl) o;
+        if(o != null) {
+            return this.numerator * f.denominator == f.numerator * this.denominator;
+        } else {
+            return false;
+        }
     }
 
 
