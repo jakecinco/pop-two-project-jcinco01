@@ -177,13 +177,13 @@ public class FractionImpl implements Fraction {
         }
     }
 
-
     /**
      * @inheritDoc
      */
     @Override
     public int compareTo(Fraction o) {
-        return 0;
+        FractionImpl fraction = (FractionImpl) this.subtract(o);
+        return fraction.numerator * fraction.denominator;
     }
 
     /**

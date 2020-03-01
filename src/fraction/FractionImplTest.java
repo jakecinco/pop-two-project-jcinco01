@@ -10,6 +10,7 @@ public class FractionImplTest {
 
     private static FractionImpl oneHalf, oneFourth, twoThirds;
     private static FractionImpl negOneHalf, negOneFourth, negThreeNinths, zeroTenth;
+    private static FractionImpl zero,one, negOne;
 
     /**
      * Create test values before main tests starts.
@@ -27,6 +28,10 @@ public class FractionImplTest {
         negThreeNinths = new FractionImpl(3, -9);
         //Create valid fractions with zero value
         zeroTenth = new FractionImpl(0, 10);
+        //Create valid fraction with whole number
+        zero = new FractionImpl(0);
+        one = new FractionImpl(1);
+        negOne = new FractionImpl(-1);
 
 
     }
@@ -43,6 +48,9 @@ public class FractionImplTest {
         negOneFourth = null;
         negThreeNinths = null;
         zeroTenth = null;
+        zero = null;
+        one = null;
+        negOne = null;
     }
 
     @Test
@@ -142,16 +150,26 @@ public class FractionImplTest {
     public void testEquals() {
         assertTrue(new FractionImpl(1,2).equals(oneHalf));
         assertTrue("-1/3".equals(negThreeNinths.toString()));
-        assertFalse(oneHalf.equals(1/2));
+        assertFalse(oneHalf.equals(new FractionImpl(1)));
     }
 
     @Test
     public void testCompareTo() {
-
+        assertEquals(0, oneFourth.compareTo(new FractionImpl("1/4")));
+        assertEquals(0, zero.compareTo(zeroTenth));
+        assertTrue(oneHalf.compareTo(oneFourth) > 0);
+        assertTrue(one.compareTo(negOne) > 0);
+        assertTrue(negOneHalf.compareTo(negOneFourth) < 0);
+        assertTrue(negThreeNinths.compareTo(negOneFourth) < 0);
     }
 
     @Test
     public  void testToString() {
-
+        assertEquals("0", zeroTenth.toString());
+        assertEquals("1/2", oneHalf.toString());
+        assertEquals("-1/2", negOneHalf.toString());
+        assertEquals("-1/3", negThreeNinths.toString());
+        assertEquals("0", zero.toString());
+        assertEquals("-1",negOne.toString());
     }
 }
