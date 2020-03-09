@@ -1,5 +1,6 @@
 package fraction;
 
+import java.lang.*;
 import java.util.IllegalFormatException;
 
 public class FractionImpl implements Fraction {
@@ -41,8 +42,8 @@ public class FractionImpl implements Fraction {
 
     /**
      * Whole number Fraction Constructor
-     * Uses the first constructor with default denominator of 1.
-     * @param wholeNumber representing the numerator as type int.
+     * Uses the first constructor with implicit denominator of 1.
+     * @param wholeNumber representing the numerator as type 'int'.
      */
     public FractionImpl(int wholeNumber) {
         this(wholeNumber, 1);
@@ -84,7 +85,16 @@ public class FractionImpl implements Fraction {
         catch (NumberFormatException nfe) {
             //if illegal value, print error
             //OK to ignore "nfe" because this is the documented behaviour on invalid input.
-            throw new NumberFormatException(fraction + " is not a valid number.");
+            System.out.println("Invalid format. " + fraction + " is not a valid number.");
+            throw new IllegalArgumentException();
+        }
+        catch (ArithmeticException err) {
+            System.out.println("Division by zero error.");
+            throw err;
+        }
+        catch (IllegalArgumentException iae) {
+            System.out.println("Invalid input format.");
+            throw new IllegalArgumentException();
         }
     }
 
@@ -93,11 +103,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction add(Fraction f) {
-        FractionImpl fraction = (FractionImpl) f;
-        //the expression (FractionImpl)f means to check that the object is of class FractionImpl
+        // The expression (FractionImpl)f means to check that the object is of class FractionImpl
         // or a subclass of that (and throw a ClassCastException if it isn't). Now, a FractionImpl is Fraction,
         // but the inverse isn't necessarily true; the cast here ensures that other will either be FractionImpl;
         // if it's not further instructions will not be executed because an exception will have been thrown.
+        FractionImpl fraction = (FractionImpl) f;
         int numerator = this.numerator * fraction.denominator + this.denominator * fraction.numerator;
         int denominator = this.denominator * fraction.denominator;
         return new FractionImpl(numerator, denominator);
@@ -108,6 +118,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction subtract(Fraction f) {
+        //Cast f to object instance of FractionImpl
         FractionImpl fraction = (FractionImpl) f;
         int numerator =  this.numerator * fraction.denominator - this.denominator * fraction.numerator;
         int denominator = this.denominator * fraction.denominator;
@@ -119,6 +130,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction multiply(Fraction f) {
+        //Cast f to object instance of FractionImpl
         FractionImpl fraction = (FractionImpl) f;
         int numerator = this.numerator * fraction.numerator;
         int denominator = this.denominator * fraction.denominator;
@@ -130,6 +142,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction divide(Fraction f) {
+        //Cast f to object instance of FractionImpl
         FractionImpl fraction = (FractionImpl) f;
         int numerator = this.numerator * fraction.denominator;
         int denominator = this.denominator * fraction.numerator;
