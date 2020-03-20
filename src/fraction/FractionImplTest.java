@@ -1,7 +1,7 @@
 package fraction;
 
+import java.lang.*;
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 public class FractionImplTest {
 
     private static FractionImpl oneHalf, oneFourth, twoThirds;
-    private static FractionImpl negOneHalf, negOneFourth, negThreeNinths, zeroTenth;
-    private static FractionImpl zero,one, negOne;
+    private static FractionImpl negOneHalf, negOneFourth, negThreeNinths, negEightTwelfths;
+    private static FractionImpl zeroTenth, zero,one, negOne;
 
     /**
      * Create test values before main tests starts.
@@ -28,6 +28,7 @@ public class FractionImplTest {
 
         //Create valid fractions with negative denominator
         negThreeNinths = new FractionImpl(3, -9);
+        negEightTwelfths = new FractionImpl(8,-12);
 
         //Create valid fractions with zero value
         zeroTenth = new FractionImpl(0, 10);
@@ -80,26 +81,27 @@ public class FractionImplTest {
 
 
     @Test
-    public void testStringFractionImplZeroDivision() {
+    public void testFractionImplZeroDivisionException() {
+        //Valid integer fraction but division by zero
         assertThrows(ArithmeticException.class, () -> {
-            new FractionImpl(1/0);
+            new FractionImpl(1,0);
+        });
+        //Valid string fraction but division by zero
+        assertThrows(ArithmeticException.class, () -> {
             new FractionImpl("1/0");
         });
     }
 
     @Test
     public void testStringFractionImplInvalidStrings() {
-//        assertThrows(NumberFormatException.class, () -> {
-//
-//
-//        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new FractionImpl("3//4");
-            new FractionImpl("One");
-            new FractionImpl("Three/4");
-           // new FractionImpl("9 9/4");
+        //Input value with blanks within integers
+        assertThrows(NumberFormatException.class, () -> {
+            new FractionImpl("9 9 0/2");
         });
-
+        //Input value which is not a number
+       assertThrows(NumberFormatException.class, () -> {
+           new FractionImpl("One");
+       });
     }
 
     @Test
@@ -130,6 +132,7 @@ public class FractionImplTest {
     @Test
     public void testDivide() {
         assertEquals("1/2", oneFourth.divide(oneHalf).toString());
+        assertEquals("-1", negEightTwelfths.divide(twoThirds).toString());
     }
 
     @Test
@@ -158,6 +161,7 @@ public class FractionImplTest {
     public void testEquals() {
         assertTrue(new FractionImpl(1,2).equals(oneHalf));
         assertTrue("-1/3".equals(negThreeNinths.toString()));
+        assertTrue("-2/3".equals(negEightTwelfths.toString()));
         assertFalse(oneHalf.equals(new FractionImpl(1)));
     }
 

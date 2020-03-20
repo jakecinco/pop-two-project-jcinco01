@@ -59,18 +59,19 @@ public class FractionImpl implements Fraction {
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
+        //String.split
         String[] fractionArray = fraction.split("/");
         try {
-            if(fractionArray.length == 1 ) {
+            if (fractionArray.length == 1) {
                 //if legal integer, convert string to int
                 this.numerator = Integer.parseInt(fraction);
                 this.denominator = 1;
-            } else if(fractionArray.length == 2 ) {
+            } else if (fractionArray.length == 2) {
                 int numerator = Integer.parseInt(fractionArray[0].trim());
                 int denominator = Integer.parseInt(fractionArray[1].trim());
                 int gcd = gcd(numerator, denominator);
-                if(denominator != 0) {
-                    if(denominator < 0) {
+                if (denominator != 0) {
+                    if (denominator < 0) {
                         this.denominator = denominator * -1 / gcd;
                         this.numerator = numerator * -1 / gcd;
                     } else {
@@ -78,23 +79,25 @@ public class FractionImpl implements Fraction {
                         this.denominator = denominator / gcd;
                     }
                 } else {
-                    throw new ArithmeticException("Denominator can't be zero!");
+                    //Manual throw of zero division error and should be caught in catch statement
+                    throw new ArithmeticException();
                 }
+            } else {
+                //Manual throw if value is invalid (i.e. not a number, blanks within integer)
+                throw new NumberFormatException();
             }
         }
+        catch (ArithmeticException ae) {
+            //If division by zero, print stack trace and re-throw error
+            ae.printStackTrace();
+            //Re-throw for testing purposes
+            throw new ArithmeticException();
+        }
         catch (NumberFormatException nfe) {
-            //if illegal value, print error
-            //OK to ignore "nfe" because this is the documented behaviour on invalid input.
-            System.out.println("Invalid format. " + fraction + " is not a valid number.");
-            throw new IllegalArgumentException();
-        }
-        catch (ArithmeticException err) {
-            System.out.println("Division by zero error.");
-            throw err;
-        }
-        catch (IllegalArgumentException iae) {
-            System.out.println("Invalid input format.");
-            throw new IllegalArgumentException();
+            //If illegal value (i.e. not a number, blanks within integers), print stack trace
+            nfe.printStackTrace();
+            //Re-throw for testing purposes
+            throw new NumberFormatException();
         }
     }
 
