@@ -1,7 +1,6 @@
 package fraction;
 
 import java.lang.*;
-import java.util.IllegalFormatException;
 
 public class FractionImpl implements Fraction {
 
