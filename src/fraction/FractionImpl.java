@@ -12,8 +12,10 @@ public class FractionImpl implements Fraction {
      * @return The greatest common divisor of a and b.
      */
     private int gcd(int a, int b) {
+        //Using java.lang.Math class to access 'abs' method to get absolute value of a number
         a = Math.abs(a);
         b = Math.abs(b);
+        //Using ternary operation
         return b == 0 ? a : gcd(b, a % b);
     }
 
@@ -45,6 +47,8 @@ public class FractionImpl implements Fraction {
      * @param wholeNumber representing the numerator as type 'int'.
      */
     public FractionImpl(int wholeNumber) {
+        //Using 'this' invokes the first FractionImpl method.
+        //First argument is the input wholeNumber, second argument is hardcoded denominator 1
         this(wholeNumber, 1);
     }
 
@@ -160,6 +164,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction abs() {
+        //Using java.lang.Math class to use 'abs' method
         return new FractionImpl(Math.abs(numerator), Math.abs(denominator));
     }
 
@@ -168,6 +173,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction negate() {
+        //Simply multiply numerator by -1 to result in negated Fraction
         return new FractionImpl(numerator * -1, denominator);
     }
 
@@ -176,8 +182,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction inverse() {
+        //Only process if numerator is not zero
         if (numerator != 0) {
+            //Reverse position of arguments numerator and denominator
             return new FractionImpl(denominator, numerator);
+        //If numerator is zero, swapped value will be division by zero so throw exception
         } else {
             throw new ArithmeticException();
         }
@@ -188,8 +197,10 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public boolean equals(Object o) {
+        //Typecast object o and store to variable f
         FractionImpl f = (FractionImpl) o;
-        if(o != null) {
+        //Check if object o is an instance of FractionImp constructor
+        if(o instanceof FractionImpl) {
             return this.numerator * f.denominator == f.numerator * this.denominator;
         } else {
             return false;
@@ -201,7 +212,9 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public int compareTo(Fraction o) {
+        //Typecast result of subtracting Fraction with o and store in variable 'fraction'
         FractionImpl fraction = (FractionImpl) this.subtract(o);
+        //Cross multiply
         return fraction.numerator * fraction.denominator;
     }
 
@@ -210,6 +223,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
+        //Using string concatenation to convert 'int' to 'string'
         if (denominator == 1) {
             return "" + numerator;
         } else {
