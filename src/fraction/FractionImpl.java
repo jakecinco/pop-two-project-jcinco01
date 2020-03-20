@@ -59,13 +59,15 @@ public class FractionImpl implements Fraction {
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
-        //String.split
+        //Split string with "/" as delimiter
         String[] fractionArray = fraction.split("/");
         try {
+            //String with no "/" will result into array length == 1
             if (fractionArray.length == 1) {
-                //if legal integer, convert string to int
+                //if legal integer, convert 'string' to 'int'
                 this.numerator = Integer.parseInt(fraction);
                 this.denominator = 1;
+            //String with 1 "/" will result into array length == 2
             } else if (fractionArray.length == 2) {
                 int numerator = Integer.parseInt(fractionArray[0].trim());
                 int denominator = Integer.parseInt(fractionArray[1].trim());
@@ -80,8 +82,10 @@ public class FractionImpl implements Fraction {
                     }
                 } else {
                     //Manual throw of zero division error and should be caught in catch statement
-                    throw new ArithmeticException();
+                    throw new ArithmeticException("Division by zero!");
                 }
+            //Handle string with invalid values
+            // This else statement can be removed as exception caught automatically in second catch below
             } else {
                 //Manual throw if value is invalid (i.e. not a number, blanks within integer)
                 throw new NumberFormatException();

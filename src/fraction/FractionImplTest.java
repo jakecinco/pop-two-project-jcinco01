@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class FractionImplTest {
 
+    //Create object instances
     private static FractionImpl oneHalf, oneFourth, twoThirds;
     private static FractionImpl negOneHalf, negOneFourth, negThreeNinths, negEightTwelfths;
     private static FractionImpl zeroTenth, zero,one, negOne;
@@ -17,6 +18,7 @@ public class FractionImplTest {
      */
     @BeforeAll
     public static void beforeEverything() {
+        //Fraction objects / Arguments
         //Create valid positive fractions
         oneHalf = new FractionImpl(1,2);
         oneFourth = new FractionImpl(1,4);
@@ -53,6 +55,7 @@ public class FractionImplTest {
         negOneHalf = null;
         negOneFourth = null;
         negThreeNinths = null;
+        negEightTwelfths = null;
         zeroTenth = null;
         zero = null;
         one = null;
@@ -63,7 +66,6 @@ public class FractionImplTest {
     public void testExpectedException() {
         assertThrows(ArithmeticException.class, () -> {
             new FractionImpl(1, 0);
-            zeroTenth.inverse();
         });
     }
 
@@ -72,13 +74,6 @@ public class FractionImplTest {
         FractionImpl f = new FractionImpl(1, 2);
         assertNotNull(f);
     }
-
-    //TODO - test case for gcd method - private method not tested
-//    @Test
-//    public void testGCD() {
-//        assertEquals(5, FractionImpl.gcd(20, 25));
-//    }
-
 
     @Test
     public void testFractionImplZeroDivisionException() {
@@ -89,6 +84,10 @@ public class FractionImplTest {
         //Valid string fraction but division by zero
         assertThrows(ArithmeticException.class, () -> {
             new FractionImpl("1/0");
+        });
+        //Test inverse method resulting in denominator = 0
+        assertThrows(ArithmeticException.class, () -> {
+            zeroTenth.inverse();
         });
     }
 
